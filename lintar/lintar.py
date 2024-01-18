@@ -20,8 +20,8 @@ def configure_logger(log_file=None, log_level=logging.INFO):
 
     # Create a color formatter
     formatter = colorlog.ColoredFormatter(
-        "%(asctime)s %(log_color)s%(levelname)-8s%\
-            (reset)s %(filename)s::%(lineno)d - %(message)s",
+        "%(asctime)s %(log_color)s%(levelname)-8s"
+        + "%(reset)s %(filename)s::%(lineno)d - %(message)s",
         log_colors={
             "DEBUG": "reset",
             "INFO": "green",
