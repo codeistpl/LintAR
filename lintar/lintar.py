@@ -2,6 +2,7 @@ import argparse
 import logging
 
 import colorlog
+from arxml.parser import ArxmlParser
 from validators.schema_based_validator import validate_arxml_with_schema
 
 
@@ -69,10 +70,13 @@ def main():
 
     args = parser.parse_args()
 
-    # Set up logging
     configure_logger(log_level=args.log_level)
-    if validate_arxml_with_schema(args.file) is False:
-        exit(1)
+
+    validate_arxml_with_schema(args.file)
+
+    parser = ArxmlParser(args.file)
+    app_sw_comp_types = parser.get_application_sw_component_types()
+    print(app_sw_comp_types)
 
 
 if __name__ == "__main__":

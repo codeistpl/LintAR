@@ -61,6 +61,10 @@ def validate_arxml_with_schema(arxml_file):
         logging.error("Failed to download schema file.")
         logging.info("Trying lo load pre-defined schema file.")
         schema_path = os.path.join(os.path.dirname(__file__), schema_file)
+        if not os.path.exists(schema_path):
+            logging.error("Pre-defined schema file does not exist.")
+            return False
+        logging.info(f"Using pre-defined schema file: {schema_path}")
 
     # Load the schema file
     schema_root = etree.parse(schema_path)
