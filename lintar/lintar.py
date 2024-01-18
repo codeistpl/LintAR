@@ -2,7 +2,7 @@ import argparse
 import logging
 
 import colorlog
-from schema_based_validator import validate_arxml_with_schema
+from validators.schema_based_validator import validate_arxml_with_schema
 
 
 def configure_logger(log_file=None, log_level=logging.INFO):
