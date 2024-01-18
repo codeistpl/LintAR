@@ -53,16 +53,16 @@ def main():
     # Parse command-line arguments
     version = "0.1.0"
     parser = argparse.ArgumentParser(description="LintAR the ARXML linting tool")
+    parser.add_argument("file", metavar="FILE", type=str, help="Path to the input file")
     parser.add_argument(
         "--log-level", default="INFO", help="Set the log level (default: INFO)"
     )
     parser.add_argument("--version", action="version", version=f"%(prog)s {version}")
+
     args = parser.parse_args()
 
     # Set up logging
     configure_logger(log_level=args.log_level)
-
-    # Your code goes here
 
 
 if __name__ == "__main__":
