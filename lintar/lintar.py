@@ -2,6 +2,7 @@ import argparse
 import logging
 
 import colorlog
+from schema_based_validator import validate_arxml_with_schema
 
 
 def configure_logger(log_file=None, log_level=logging.INFO):
@@ -19,7 +20,8 @@ def configure_logger(log_file=None, log_level=logging.INFO):
 
     # Create a color formatter
     formatter = colorlog.ColoredFormatter(
-        "%(asctime)s %(log_color)s%(levelname)-8s%(reset)s %(filename)s::%(lineno)d - %(message)s",
+        "%(asctime)s %(log_color)s%(levelname)-8s%\
+            (reset)s %(filename)s::%(lineno)d - %(message)s",
         log_colors={
             "DEBUG": "reset",
             "INFO": "green",
@@ -52,17 +54,25 @@ def configure_logger(log_file=None, log_level=logging.INFO):
 def main():
     # Parse command-line arguments
     version = "0.1.0"
-    parser = argparse.ArgumentParser(description="LintAR the ARXML linting tool")
-    parser.add_argument("file", metavar="FILE", type=str, help="Path to the input file")
+    parser = argparse.ArgumentParser(
+        description="LintAR the ARXML linting tool"
+    )
+    parser.add_argument(
+        "file", metavar="FILE", type=str, help="Path to the input file"
+    )
     parser.add_argument(
         "--log-level", default="INFO", help="Set the log level (default: INFO)"
     )
-    parser.add_argument("--version", action="version", version=f"%(prog)s {version}")
+    parser.add_argument(
+        "--version", action="version", version=f"%(prog)s {version}"
+    )
 
     args = parser.parse_args()
 
     # Set up logging
     configure_logger(log_level=args.log_level)
+    if validate_arxml_with_schema(args.file) is False:
+        exit(1)
 
 
 if __name__ == "__main__":
