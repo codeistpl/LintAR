@@ -78,13 +78,17 @@ class Ports(List[AbsPortPrototype]):
 
         ns = namespace
         arxml_ports = Ports()
-        r_ports = xmlElement.findall(f"{ns}R-PORT-PROTOTYPE")
-        for r_port in r_ports:
-            arxml_ports.append(RPortPrototype.parse(r_port, ns))
-        p_ports = xmlElement.findall(f"{ns}P-PORT-PROTOTYPE")
-        for p_port in p_ports:
-            arxml_ports.append(PPortPrototype.parse(p_port, ns))
-        return arxml_ports
+        arxml_ports = [
+            RPortPrototype.parse(r_port, ns)
+            for r_port in xmlElement.findall(f"{ns}R-PORT-PROTOTYPE")
+        ]
+        arxml_ports.extend(
+            [
+                PPortPrototype.parse(p_port, ns)
+                for p_port in xmlElement.findall(f"{ns}P-PORT-PROTOTYPE")
+            ]
+        )
+        return list(filter(lambda port: port is not None, arxml_ports))
 
     @property
     def r_ports(self):
