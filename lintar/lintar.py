@@ -76,7 +76,12 @@ def main():
 
     parser = ArxmlParser(args.file)
     app_sw_comp_types = parser.get_application_sw_component_types()
-    print(app_sw_comp_types)
+    for app_sw_comp_type in app_sw_comp_types:
+        logging.info(app_sw_comp_type.short_name + " " + app_sw_comp_type.uuid)
+
+        for port in app_sw_comp_type.ports:
+            logging.info(port.short_name + " " + port.uuid)
+            logging.info(port.interface_tref.text)
 
 
 if __name__ == "__main__":

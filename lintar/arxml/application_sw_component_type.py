@@ -1,18 +1,23 @@
 from dataclasses import dataclass, field
 from typing import List
-from ports import Ports
+from .ports import Ports
 
 
 @dataclass
 class ApplicationSwComponentType:
-    short_name: str = None
-    ports: List[str] = field(default_factory=list)
+    uuid = str = ""
+    short_name: str = ""
+    ports: Ports = field(default_factory=Ports)
     xmlElement = None
 
     @staticmethod
-    def parse(xmlElement, namespace: str = None):
+    def parse(xmlElement, namespace: str = ""):
         ns = namespace
-        data = ApplicationSwComponentType()
-        data.xmlElement = xmlElement
-        data.short_name = xmlElement.find(f"{ns}SHORT-NAME").text
-        ports = Ports.parse(xmlElement.findall("PORTS"))
+        object = ApplicationSwComponentType()
+        object.uuid = xmlElement.get("UUID")
+        object.xmlElement = xmlElement
+        object.short_name = xmlElement.find(f"{ns}SHORT-NAME").text
+        object.ports = Ports.parse(xmlElement.find(f"{ns}PORTS"), ns)
+        print(xmlElement.find(f"{ns}PORTS"))
+
+        return object

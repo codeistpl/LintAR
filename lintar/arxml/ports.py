@@ -71,6 +71,7 @@ class Ports(List[AbsPortPrototype]):
         for p_port in p_ports:
             arxml_ports.append(PPortPrototype.parse(p_port, ns))
 
+        print(arxml_ports)
         return arxml_ports
 
     @property
