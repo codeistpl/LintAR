@@ -88,16 +88,16 @@ class Ports(List[AbsPortPrototype]):
                 for p_port in xmlElement.findall(f"{ns}P-PORT-PROTOTYPE")
             ]
         )
-        return list(filter(lambda port: port is not None, arxml_ports))
+        return Ports(filter(lambda port: port is not None, arxml_ports))
 
     @property
     def r_ports(self):
-        return list(
+        return Ports(
             filter(lambda port: isinstance(port, RPortPrototype), self)
         )
 
     @property
     def p_ports(self):
-        return list(
+        return Ports(
             filter(lambda port: isinstance(port, PPortPrototype), self)
         )
