@@ -3,7 +3,7 @@ import logging
 import colorlog
 
 
-def configure_logger(log_file=None, log_level=logging.INFO):
+def configure_logger(log_file: str = None, log_level: str = "INFO"):
     """
     Configure the logger with a console handler and an optional file handler.
     This configuration:
@@ -22,14 +22,12 @@ def configure_logger(log_file=None, log_level=logging.INFO):
 
     logger = logging.getLogger()
 
-    # Check if log_file is provided
-    if log_file:
-        # Create a file handler and set the formatter
+    if log_file:  # log to file
         file_handler = logging.FileHandler(log_file)
         fmt = (
             "%(asctime)s| %(levelname)-8s"
             + "| %(filename)s:%(lineno)d | %(message)s"
-            if log_level == logging.DEBUG
+            if log_level == "DEBUG"
             else "%(asctime)s| %(levelname)-8s| %(message)s"
         )
         formatter = logging.Formatter(
@@ -44,7 +42,7 @@ def configure_logger(log_file=None, log_level=logging.INFO):
         fmt = (
             "%(log_color)s%(levelname)-8s%(reset)s"
             + "| %(filename)s:%(lineno)d | %(message)s"
-            if log_level == logging.DEBUG
+            if log_level == "DEBUG"
             else "%(log_color)s%(levelname)-8s%(reset)s| %(message)s"
         )
 
@@ -57,7 +55,6 @@ def configure_logger(log_file=None, log_level=logging.INFO):
                 "ERROR": "red",
                 "CRITICAL": "bold_red",
             },
-            datefmt="%d-%M-%Y %H:%M:%S,uuu",
         )
         # Create a console handler and set the formatter
         console_handler = logging.StreamHandler()
