@@ -11,6 +11,10 @@ import os
 def configure_logger(log_file=None, log_level=logging.INFO):
     """
     Configure the logger with a console handler and an optional file handler.
+    This configuration:
+    - redirects logging to console OR file
+    - log code origin is added to the log message only for DEBUG level
+    - timestamp is added to the log message only when logging to file
 
     Args:
         log_file (str, optional): Path to the log file. Defaults to None.
