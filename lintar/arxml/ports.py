@@ -73,6 +73,9 @@ class RPortPrototype(AbsPortPrototype):
 
 class Ports(List[AbsPortPrototype]):
     def parse(xmlElement, namespace: str = ""):
+        if xmlElement is None:
+            return Ports()
+
         ns = namespace
         arxml_ports = Ports()
         r_ports = xmlElement.findall(f"{ns}R-PORT-PROTOTYPE")

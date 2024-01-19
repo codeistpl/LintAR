@@ -4,8 +4,7 @@ from .application_sw_component_type import ApplicationSwComponentType
 
 
 class ApplicationSwComponentTypeTests(unittest.TestCase):
-    def setUp(self):
-        # Create a sample XML element for testing
+    def test_parse_ok(self):
         xml_string = """
         <APPLICATION-SW-COMPONENT-TYPE  UUID="123">
             <SHORT-NAME>Component1</SHORT-NAME>
@@ -13,14 +12,38 @@ class ApplicationSwComponentTypeTests(unittest.TestCase):
             </PORTS>
         </APPLICATION-SW-COMPONENT-TYPE>
         """
-        self.xml_element = etree.fromstring(xml_string)
+        xml_element = etree.fromstring(xml_string)
 
-    def test_parse(self):
         # Call the parse method and check if the object is created correctly
-        component = ApplicationSwComponentType.parse(self.xml_element)
+        component = ApplicationSwComponentType.parse(xml_element)
         self.assertEqual(component.uuid, "123")
         self.assertEqual(component.short_name, "Component1")
         self.assertEqual(len(component.ports), 0)
+
+    def test_parse_no_short_name(self):
+        xml_string = """
+        <APPLICATION-SW-COMPONENT-TYPE  UUID="123">
+            <PORTS>
+            </PORTS>
+        </APPLICATION-SW-COMPONENT-TYPE>
+        """
+        xml_element = etree.fromstring(xml_string)
+
+        # Call the parse method and check if the object is created correctly
+        component = ApplicationSwComponentType.parse(xml_element)
+        self.assertIsNone(component)
+
+    def test_parse_no_ports(self):
+        xml_string = """
+        <APPLICATION-SW-COMPONENT-TYPE  UUID="123">
+            <SHORT-NAME>Component1</SHORT-NAME>
+        </APPLICATION-SW-COMPONENT-TYPE>
+        """
+        xml_element = etree.fromstring(xml_string)
+
+        # Call the parse method and check if the object is created correctly
+        component = ApplicationSwComponentType.parse(xml_element)
+        self.assertEqual(0, len(component.ports))
 
 
 if __name__ == "__main__":

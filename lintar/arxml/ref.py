@@ -16,6 +16,8 @@ class Reference:
 
     @property
     def name(self):
+        if not self.text:
+            return ""
         return self.text.split("/")[-1]
 
 
