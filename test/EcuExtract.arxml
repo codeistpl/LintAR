@@ -10,7 +10,7 @@
             <APPLICATION-SW-COMPONENT-TYPE UUID="2dbc5fd9-e3c1-3151-a0e4-b723a660be32">
               <SHORT-NAME>Door</SHORT-NAME>
               <PORTS>
-                <P-PORT-PROTOTYPE UUID="9dc49b58-a185-36d4-8594-1e564711dd28">
+                <P-PORT-PROTOTYPE>
                   <SHORT-NAME>Status</SHORT-NAME>
                   <PROVIDED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/Demo/Interfaces/DoorStatus</PROVIDED-INTERFACE-TREF>
                 </P-PORT-PROTOTYPE>

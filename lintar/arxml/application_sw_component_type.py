@@ -18,6 +18,5 @@ class ApplicationSwComponentType:
         object.xmlElement = xmlElement
         object.short_name = xmlElement.find(f"{ns}SHORT-NAME").text
         object.ports = Ports.parse(xmlElement.find(f"{ns}PORTS"), ns)
-        print(xmlElement.find(f"{ns}PORTS"))
 
         return object

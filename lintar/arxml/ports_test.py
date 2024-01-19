@@ -4,7 +4,7 @@ from .ports import PPortPrototype, RPortPrototype, Ports
 
 
 class TestPPortPrototype(TestCase):
-    def test_getting_name(self):
+    def test_parse_ok(self):
         xml = '<P-PORT-PROTOTYPE UUID="9dc49b58-a185-36d4-8594-1e564711dd28">\
                   <SHORT-NAME>Status</SHORT-NAME>\
                   <PROVIDED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/Demo/Interfaces/DoorStatus</PROVIDED-INTERFACE-TREF>\
@@ -20,9 +20,25 @@ class TestPPortPrototype(TestCase):
         )
         self.assertEqual(port.uuid, "9dc49b58-a185-36d4-8594-1e564711dd28")
 
+    def test_parse_no_short_name(self):
+        xml = '<P-PORT-PROTOTYPE UUID="9dc49b58-a185-36d4-8594-1e564711dd28">\
+                  <PROVIDED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/Demo/Interfaces/DoorStatus</PROVIDED-INTERFACE-TREF>\
+                </P-PORT-PROTOTYPE>'
+        element = ET.fromstring(xml)
+        p_port = PPortPrototype.parse(xmlElement=element)
+        self.assertIsNone(p_port)
+
+    def test_parse_no_provided_interface_tref(self):
+        xml = '<P-PORT-PROTOTYPE UUID="9dc49b58-a185-36d4-8594-1e564711dd28">\
+                  <SHORT-NAME>Status</SHORT-NAME>\
+                </P-PORT-PROTOTYPE>'
+        element = ET.fromstring(xml)
+        p_port = PPortPrototype.parse(xmlElement=element)
+        self.assertIsNone(p_port)
+
 
 class TestRPortPrototype(TestCase):
-    def test_getting_name(self):
+    def test_parse_ok(self):
         xml = '<R-PORT-PROTOTYPE UUID="9dc49b58-a185-36d4-8594-1e564711dd28">\
                   <SHORT-NAME>Status</SHORT-NAME>\
                   <REQUIRED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/Demo/Interfaces/DoorStatus</REQUIRED-INTERFACE-TREF>\
@@ -37,6 +53,31 @@ class TestRPortPrototype(TestCase):
             port.required_interface_tref.text, "/Demo/Interfaces/DoorStatus"
         )
         self.assertEqual(port.uuid, "9dc49b58-a185-36d4-8594-1e564711dd28")
+
+    def test_parse_no_short_name(self):
+        xml = '<R-PORT-PROTOTYPE UUID="9dc49b58-a185-36d4-8594-1e564711dd28">\
+                  <REQUIRED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/Demo/Interfaces/DoorStatus</REQUIRED-INTERFACE-TREF>\
+                </R-PORT-PROTOTYPE>'
+        element = ET.fromstring(xml)
+        r_port = RPortPrototype.parse(xmlElement=element)
+        self.assertIsNone(r_port)
+
+    def test_parse_no_required_interface_tref(self):
+        xml = '<R-PORT-PROTOTYPE UUID="9dc49b58-a185-36d4-8594-1e564711dd28">\
+                  <SHORT-NAME>Status</SHORT-NAME>\
+                </R-PORT-PROTOTYPE>'
+        element = ET.fromstring(xml)
+        r_port = RPortPrototype.parse(xmlElement=element)
+        self.assertIsNone(r_port)
+
+    def test_parse_no_uuid(self):
+        xml = '<R-PORT-PROTOTYPE>\
+                  <SHORT-NAME>Status</SHORT-NAME>\
+                  <REQUIRED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/Demo/Interfaces/DoorStatus</REQUIRED-INTERFACE-TREF>\
+                </R-PORT-PROTOTYPE>'
+        element = ET.fromstring(xml)
+        r_port = RPortPrototype.parse(xmlElement=element)
+        self.assertIsNotNone(r_port)
 
 
 class TestPorts(TestCase):
