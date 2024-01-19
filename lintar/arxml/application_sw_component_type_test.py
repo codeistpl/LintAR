@@ -45,6 +45,22 @@ class ApplicationSwComponentTypeTests(unittest.TestCase):
         component = ApplicationSwComponentType.parse(xml_element)
         self.assertEqual(0, len(component.ports))
 
+    def test_parse_no_uuid(self):
+        xml_string = """
+        <APPLICATION-SW-COMPONENT-TYPE>
+            <SHORT-NAME>Component1</SHORT-NAME>
+            <PORTS>
+            </PORTS>
+        </APPLICATION-SW-COMPONENT-TYPE>
+        """
+        xml_element = etree.fromstring(xml_string)
+
+        # Call the parse method and check if the object is created correctly
+        component = ApplicationSwComponentType.parse(xml_element)
+        self.assertEqual(component.uuid, "")
+        self.assertEqual(component.short_name, "Component1")
+        self.assertEqual(len(component.ports), 0)
+
 
 if __name__ == "__main__":
     unittest.main()
