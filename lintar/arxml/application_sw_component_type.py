@@ -1,14 +1,10 @@
+import logging
 from dataclasses import dataclass, field
 from typing import List
+
+from .abs_parser import (catch_and_log_exceptions, get_attrib_or_none,
+                         get_element_or_none, get_text_or_rise, pretty_print)
 from .ports import Ports
-from .abs_parser import (
-    get_text_or_rise,
-    get_element_or_none,
-    get_attrib_or_none,
-    catch_and_log_exceptions,
-    pretty_print,
-)
-import logging
 
 
 @dataclass

@@ -1,4 +1,5 @@
 from lxml import etree as ET
+
 from .application_sw_component_type import ApplicationSwComponentType
 
 

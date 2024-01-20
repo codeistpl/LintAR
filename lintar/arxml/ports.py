@@ -1,16 +1,13 @@
-from dataclasses import dataclass, field
-from .ref import ProvidedInterfaceTref as Ref
-from lxml.etree import Element
-from abc import ABC, abstractmethod, abstractproperty
-from typing import List
 import logging
-from .abs_parser import (
-    catch_and_log_exceptions,
-    get_text_or_rise,
-    get_element_or_rise,
-    get_attrib_or_none,
-    pretty_print,
-)
+from abc import ABC, abstractmethod, abstractproperty
+from dataclasses import dataclass, field
+from typing import List
+
+from lxml.etree import Element
+
+from .abs_parser import (catch_and_log_exceptions, get_attrib_or_none,
+                         get_element_or_rise, get_text_or_rise, pretty_print)
+from .ref import ProvidedInterfaceTref as Ref
 
 
 @dataclass

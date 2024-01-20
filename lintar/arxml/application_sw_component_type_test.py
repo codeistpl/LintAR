@@ -1,5 +1,7 @@
 import unittest
+
 from lxml import etree
+
 from .application_sw_component_type import ApplicationSwComponentType
 
 

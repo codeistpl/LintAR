@@ -1,6 +1,8 @@
 import unittest
-from .ref import ProvidedInterfaceTref as Reference
+
 from lxml import etree as ET
+
+from .ref import ProvidedInterfaceTref as Reference
 
 
 class TestReference(unittest.TestCase):

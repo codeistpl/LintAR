@@ -1,7 +1,8 @@
-from abc import ABC, abstractmethod
-from lxml.etree import Element
-from lxml import etree as ET
 import logging
+from abc import ABC, abstractmethod
+
+from lxml import etree as ET
+from lxml.etree import Element
 
 
 def catch_and_log_exceptions(func):

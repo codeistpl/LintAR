@@ -1,7 +1,9 @@
-from unittest import TestCase
-from lxml import etree as ET
-from .ports import PPortPrototype, RPortPrototype, Ports
 import logging
+from unittest import TestCase
+
+from lxml import etree as ET
+
+from .ports import Ports, PPortPrototype, RPortPrototype
 
 # mute logging for testing
 logging.disable(logging.CRITICAL)
