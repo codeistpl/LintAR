@@ -22,16 +22,11 @@ class ApplicationSwComponentType:
         @catch_and_log_exceptions
         def parse(self, xmlElement: Element):
             object = ApplicationSwComponentType()
-            object.uuid = self.get_attrib_or_none(xmlElement, "UUID")
-            if object.uuid is None:
-                logging.warning(
-                    f"Missing UUID for APPLICATION-SW-COMPONENT-TYPE, inside XML file line number {xmlElement.sourceline} {pretty_print(xmlElement)}"
-                )
-                object.uuid = ""
+            object.uuid = self.get_optional_attrib(xmlElement, "UUID")
             object.xmlElement = xmlElement
             object.short_name = self.get_text_or_rise(xmlElement, "SHORT-NAME")
-            object.ports = Ports.Parser(namespace=self.namespace).parse(
-                self.get_element_or_none(xmlElement, "PORTS")
-            )
+            object.ports = Ports.Parser(
+                namespace=self.namespace, arxml_path=self.arxml_path
+            ).parse(self.get_element_or_none(xmlElement, "PORTS"))
 
             return object

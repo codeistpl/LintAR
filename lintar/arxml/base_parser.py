@@ -3,14 +3,15 @@ from abc import ABC, abstractmethod
 
 from lxml import etree as ET
 from lxml.etree import Element
+from .arxml_errors import MissingData, ArxmlParseError
 
 
 def catch_and_log_exceptions(func):
     def wrapper(*args, **kwargs):
         try:
             return func(*args, **kwargs)
-        except ValueError as e:
-            logging.error(f"Exception occurred while parsing: {e}")
+        except (ArxmlParseError, MissingData) as e:
+            logging.error(e)
             return None
 
     return wrapper
@@ -40,9 +41,8 @@ class BaseParser:
     def get_element_or_rise(self, xmlElement: Element, tag: str):
         element = self.get_element_or_none(xmlElement, tag)
         if element is None:
-            raise ValueError(
-                f"Missing required tag: {tag}, inside XML file line number {xmlElement.sourceline} \n{pretty_print(xmlElement)}"
-            )
+            file_ref = f"{self.arxml_path}:{xmlElement.sourceline}"
+            raise MissingData(f"{file_ref} Missing required tag: {tag} !")
 
         return element
 
@@ -58,18 +58,30 @@ class BaseParser:
         element = self.get_element_or_rise(xmlElement, tag)
         return element.text
 
-    def get_attrib_or_none(self, xmlElement: Element, attrib: str):
-        return (
+    def _get_attrib_or_none(self, xmlElement: Element, attrib: str):
+        attrib = (
             xmlElement.attrib.get(attrib)
             if xmlElement.attrib.get(attrib) is not None
             else None
         )
+        return attrib
+
+    def get_optional_attrib(self, xmlElement: Element, attrib: str):
+        val = self._get_attrib_or_none(xmlElement, attrib)
+        if val is None:
+            file_ref = f"{self.arxml_path}:{xmlElement.sourceline}"
+            logging.warning(
+                f"{file_ref} Missing optional attribute: {attrib}!"
+            )
+            return ""
+        return val
 
     def get_attrib_or_rise(self, xmlElement: Element, attrib: str):
-        attrib = self.get_attrib_or_none(xmlElement, attrib)
+        attrib = self._get_attrib_or_none(xmlElement, attrib)
         if attrib is None:
-            raise ValueError(
-                f"Missing required attribute: {attrib}, inside XML file line number {xmlElement.sourceline} \n{pretty_print(xmlElement)}"
+            file_ref = f"{self.arxml_path}:{xmlElement.sourceline}"
+            raise MissingData(
+                f"{file_ref} Missing required attribute: {attrib}!"
             )
 
         return attrib

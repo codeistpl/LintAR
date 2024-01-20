@@ -34,12 +34,7 @@ class PPortPrototype(AbsPortPrototype):
                     xmlElement, "PROVIDED-INTERFACE-TREF"
                 ),
             )
-            port.uuid = self.get_attrib_or_none(xmlElement, "UUID")
-            if port.uuid is None:
-                logging.warning(
-                    f"Missing UUID for P-PORT-PROTOTYPE, inside XML file line number {xmlElement.sourceline} \n{pretty_print(xmlElement)}"
-                )
-                port.uuid = ""
+            port.uuid = self.get_optional_attrib(xmlElement, "UUID")
             return port
 
     @property
@@ -63,7 +58,7 @@ class RPortPrototype(AbsPortPrototype):
                     xmlElement, "REQUIRED-INTERFACE-TREF"
                 ),
             )
-            port.uuid = self.get_attrib_or_none(xmlElement, "UUID")
+            port.uuid = self.get_optional_attrib(xmlElement, "UUID")
             return port
 
     @property
@@ -79,14 +74,18 @@ class Ports(List[AbsPortPrototype]):
 
             arxml_ports = Ports()
             arxml_ports = [
-                RPortPrototype.Parser(self.namespace).parse(r_port)
+                RPortPrototype.Parser(self.namespace, self.arxml_path).parse(
+                    r_port
+                )
                 for r_port in xmlElement.findall(
                     f"{self.namespace}R-PORT-PROTOTYPE"
                 )
             ]
             arxml_ports.extend(
                 [
-                    PPortPrototype.Parser(self.namespace).parse(p_port)
+                    PPortPrototype.Parser(
+                        self.namespace, self.arxml_path
+                    ).parse(p_port)
                     for p_port in xmlElement.findall(
                         f"{self.namespace}P-PORT-PROTOTYPE"
                     )
