@@ -17,7 +17,7 @@ class ApplicationSwComponentTypeTests(unittest.TestCase):
         xml_element = etree.fromstring(xml_string)
 
         # Call the parse method and check if the object is created correctly
-        component = ApplicationSwComponentType.parse(xml_element)
+        component = ApplicationSwComponentType.Parser().parse(xml_element)
         self.assertEqual(component.uuid, "123")
         self.assertEqual(component.short_name, "Component1")
         self.assertEqual(len(component.ports), 0)
@@ -32,7 +32,7 @@ class ApplicationSwComponentTypeTests(unittest.TestCase):
         xml_element = etree.fromstring(xml_string)
 
         # Call the parse method and check if the object is created correctly
-        component = ApplicationSwComponentType.parse(xml_element)
+        component = ApplicationSwComponentType.Parser().parse(xml_element)
         self.assertIsNone(component)
 
     def test_parse_no_ports(self):
@@ -44,7 +44,7 @@ class ApplicationSwComponentTypeTests(unittest.TestCase):
         xml_element = etree.fromstring(xml_string)
 
         # Call the parse method and check if the object is created correctly
-        component = ApplicationSwComponentType.parse(xml_element)
+        component = ApplicationSwComponentType.Parser().parse(xml_element)
         self.assertEqual(0, len(component.ports))
 
     def test_parse_no_uuid(self):
@@ -58,7 +58,7 @@ class ApplicationSwComponentTypeTests(unittest.TestCase):
         xml_element = etree.fromstring(xml_string)
 
         # Call the parse method and check if the object is created correctly
-        component = ApplicationSwComponentType.parse(xml_element)
+        component = ApplicationSwComponentType.Parser().parse(xml_element)
         self.assertEqual(component.uuid, "")
         self.assertEqual(component.short_name, "Component1")
         self.assertEqual(len(component.ports), 0)

@@ -16,7 +16,7 @@ class TestPPortPrototype(TestCase):
                   <PROVIDED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/Demo/Interfaces/DoorStatus</PROVIDED-INTERFACE-TREF>\
                 </P-PORT-PROTOTYPE>'
         element = ET.fromstring(xml)
-        port = PPortPrototype.parse(xmlElement=element)
+        port = PPortPrototype.Parser().parse(xmlElement=element)
         self.assertEqual(port.short_name, "Status")
         self.assertEqual(
             port.provided_interface_tref.dest, "SENDER-RECEIVER-INTERFACE"
@@ -31,7 +31,7 @@ class TestPPortPrototype(TestCase):
                   <PROVIDED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/Demo/Interfaces/DoorStatus</PROVIDED-INTERFACE-TREF>\
                 </P-PORT-PROTOTYPE>'
         element = ET.fromstring(xml)
-        p_port = PPortPrototype.parse(xmlElement=element)
+        p_port = PPortPrototype.Parser().parse(xmlElement=element)
         self.assertIsNone(p_port)
 
     def test_parse_no_provided_interface_tref(self):
@@ -39,7 +39,7 @@ class TestPPortPrototype(TestCase):
                   <SHORT-NAME>Status</SHORT-NAME>\
                 </P-PORT-PROTOTYPE>'
         element = ET.fromstring(xml)
-        p_port = PPortPrototype.parse(xmlElement=element)
+        p_port = PPortPrototype.Parser().parse(xmlElement=element)
         self.assertIsNone(p_port)
 
 
@@ -50,7 +50,7 @@ class TestRPortPrototype(TestCase):
                   <REQUIRED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/Demo/Interfaces/DoorStatus</REQUIRED-INTERFACE-TREF>\
                 </R-PORT-PROTOTYPE>'
         element = ET.fromstring(xml)
-        port = RPortPrototype.parse(xmlElement=element)
+        port = RPortPrototype.Parser().parse(xmlElement=element)
         self.assertEqual(port.short_name, "Status")
         self.assertEqual(
             port.required_interface_tref.dest, "SENDER-RECEIVER-INTERFACE"
@@ -65,7 +65,7 @@ class TestRPortPrototype(TestCase):
                   <REQUIRED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/Demo/Interfaces/DoorStatus</REQUIRED-INTERFACE-TREF>\
                 </R-PORT-PROTOTYPE>'
         element = ET.fromstring(xml)
-        r_port = RPortPrototype.parse(xmlElement=element)
+        r_port = RPortPrototype.Parser().parse(xmlElement=element)
         self.assertIsNone(r_port)
 
     def test_parse_no_required_interface_tref(self):
@@ -73,7 +73,7 @@ class TestRPortPrototype(TestCase):
                   <SHORT-NAME>Status</SHORT-NAME>\
                 </R-PORT-PROTOTYPE>'
         element = ET.fromstring(xml)
-        r_port = RPortPrototype.parse(xmlElement=element)
+        r_port = RPortPrototype.Parser().parse(xmlElement=element)
         self.assertIsNone(r_port)
 
     def test_parse_no_uuid(self):
@@ -82,7 +82,7 @@ class TestRPortPrototype(TestCase):
                   <REQUIRED-INTERFACE-TREF DEST="SENDER-RECEIVER-INTERFACE">/Demo/Interfaces/DoorStatus</REQUIRED-INTERFACE-TREF>\
                 </R-PORT-PROTOTYPE>'
         element = ET.fromstring(xml)
-        r_port = RPortPrototype.parse(xmlElement=element)
+        r_port = RPortPrototype.Parser().parse(xmlElement=element)
         self.assertIsNotNone(r_port)
 
 
@@ -103,7 +103,7 @@ class TestPorts(TestCase):
                 </P-PORT-PROTOTYPE>\
               </PORTS>'
         element = ET.fromstring(xml)
-        ports = Ports.parse(xmlElement=element)
+        ports = Ports.Parser().parse(xmlElement=element)
         self.assertEqual(len(ports), 3)
         self.assertEqual(ports[0].short_name, "StatusLeft")
         self.assertEqual(ports[1].short_name, "StatusRight")

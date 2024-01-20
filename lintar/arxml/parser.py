@@ -18,9 +18,9 @@ class ArxmlParser:
 
         for element in xmlElements:
             objects.append(
-                ApplicationSwComponentType.parse(
-                    xmlElement=element, namespace=self.ns
-                )
+                ApplicationSwComponentType.Parser(
+                    namespace=self.ns, arxml_path=self.arxml_path
+                ).parse(element)
             )
 
         return objects
